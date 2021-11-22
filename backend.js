@@ -1,17 +1,21 @@
 import express from "express";
-import mongodb, { MongoClient } from "mongodb";
+// import mongodb, { MongoClient } from 'mongodb';
+import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3022;
+const port = process.env.PORT || 3016;
 app.use(cors());
 
 // const mongoConnectionsString = "mongodb://localhost:27017";
-const mongoConnectionsString = process.env.MONGODB_URL;
-const client = new MongoClient(mongoConnectionsString);
+// const mongoConnectString = 'mongodb://localhost:27017';
+// const mongoConnectString = 'mongodb://localhost:27017/api001';
+const mongoConnectString = process.env.MONGODB_URL;
+// const client = new MongoClient(mongoConnectString);
+mongoose.connect(mongoConnectString);
 app.use(express.json());
 
 const getDatabase = async (done) => {
