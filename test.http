@@ -1,0 +1,41 @@
+
+@url= http://localhost:3022
+
+
+### show all users 
+GET {{url}}
+content-type: application/json; 
+
+### show all users infos
+GET {{url}}/allinfo
+content-type: application/json; 
+
+
+### Delete users (TEST)
+DELETE {{url}}/deleteuser/user123
+content-type: application/json; 
+
+### Delete users by ID
+DELETE {{url}}/deleteuser/6192322df2e62e6943e2747f
+content-type: application/json; 
+
+
+### Add a user TEST
+POST {{url}}/adduser
+content-type: application/json
+
+{
+    "user": {
+        "name": "Angie Additive",
+        "username": "angie_additive",
+        "email": "angie@hotmail.com"
+    }
+}
+
+### Update a useer
+PATCH {{url}}/edituser/61926845cf0afe5ce93eefbb
+content-type: application/json
+
+{
+    "email": "angie@yahoo.com"
+}
