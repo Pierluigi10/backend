@@ -23,7 +23,7 @@ const userSchema = mongoose.Schema({
   username: String,
   email: String,
 });
-const UserModel = mongoose.model("User", userSchema, "user100");
+const UserModel = mongoose.model("User", userSchema, "users100");
 
 // const getDatabase = async (done) => {
 //   await client.connect();
@@ -49,7 +49,7 @@ const UserModel = mongoose.model("User", userSchema, "user100");
 //     res.json(users);
 //   });
 // });
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   const users = await UserModel.find({}).select("name username email");
   res.json(users);
 });
@@ -78,7 +78,8 @@ app.get("/", (req, res) => {
 //   });
 // });
 
-app.delete("/deleteuser/:id", (req, res) => {
+app.delete("/deleteuser/:id", async (req, res) => {
+  const id = req.params.id;
   const deleteResult = await UserModel.deleteOne({
     _id: new mongoose.Types.ObjectId(id),
   });
@@ -94,7 +95,8 @@ app.delete("/deleteuser/:id", (req, res) => {
 //   });
 // });
 
-app.post("/adduser", (req, res) => {
+app.post("/adduser", async (req, res) => {
+  const user = req.body.user;
   const user1 = new UserModel(user);
   user1.save((err) => {
     if (err) {
@@ -106,6 +108,7 @@ app.post("/adduser", (req, res) => {
     }
   });
 });
+
 
 // app.patch("/edituser/:id", (req, res) => {
 //   const id = req.params.id;
@@ -120,10 +123,14 @@ app.post("/adduser", (req, res) => {
 //   });
 // });
 
-app.patch("/edituseremail", (req, res) => {
+app.patch("/edituser/:id", async (req, res) => {
+  const id = req.params.id;
+  const name = req.body.name;
+  const username = req.body.username;
+  const email = req.body.email;
   const updateResult = await UserModel.findOneAndUpdate(
     { _id: new mongoose.Types.ObjectId(id) },
-    { $set: { email } },
+    { $set: { name, username, email } },
     { new: true }
   );
   res.json({

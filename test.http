@@ -1,5 +1,5 @@
 
-@url= http://localhost:3022
+@url= http://localhost:3016
 
 
 ### show all users 
@@ -8,7 +8,7 @@ content-type: application/json;
 
 
 ### Delete users by ID
-DELETE {{url}}/deleteuser/6192322df2e62e6943e2747f
+DELETE {{url}}/deleteuser/619baaf7cce2a44682e64dd6
 content-type: application/json; 
 
 
@@ -18,16 +18,16 @@ content-type: application/json
 
 {
     "user": {
-        "name": "Angie Additive",
-        "username": "angie_additive",
+        "name": "Test Angie Additive",
+        "username": "test",
         "email": "angie@hotmail.com"
     }
 }
 
-### Update a useer
-PATCH {{url}}//edituseremail
+### Update a user
+PATCH {{url}}/edituser/619baaf7cce2a44682e64dd6
 content-type: application/json
 
 {
-    "email": "angie@yahoo.com"
+    "email": "test@yahoo.com"
 }
