@@ -1,5 +1,5 @@
 
-#  manageUserAppBackend
+#  Manage User App Backend with Mongoose
 
 This is the backend for a user-management app that has a create-react-app frontend and Node/Express API backend that carries out CRUD operations on a MongoDB database with the Mongoose driver.
 
