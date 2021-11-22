@@ -18,73 +18,116 @@ const mongoConnectString = process.env.MONGODB_URL;
 mongoose.connect(mongoConnectString);
 app.use(express.json());
 
-const getDatabase = async (done) => {
-  await client.connect();
-  const db = client.db("api001");
-  done(db);
-};
+const userSchema = mongoose.Schema({
+  name: String,
+  username: String,
+  email: String,
+});
+const UserModel = mongoose.model("User", userSchema, "user100");
+
+// const getDatabase = async (done) => {
+//   await client.connect();
+//   const db = client.db("api001");
+//   done(db);
+// };
 
 // app.get('/', (req, res) => {
 //     res.send("it works(TEST)")
 // })
 
+// app.get("/", (req, res) => {
+//   getDatabase(async (db) => {
+//     const users = await db
+//       .collection("users100")
+//       .find()
+//       .project({
+//         name: 1,
+//         username: 1,
+//         email: 1,
+//       })
+//       .toArray();
+//     res.json(users);
+//   });
+// });
 app.get("/", (req, res) => {
-  getDatabase(async (db) => {
-    const users = await db
-      .collection("users100")
-      .find()
-      .project({
-        name: 1,
-        username: 1,
-        email: 1,
-      })
-      .toArray();
-    res.json(users);
-  });
+  const users = await UserModel.find({}).select("name username email");
+  res.json(users);
 });
 
-app.get("/allinfo", (req, res) => {
-  getDatabase(async (db) => {
-    const users = await db.collection("users100").find().toArray();
-    res.json(users);
-  });
-});
+// app.get("/allinfo", (req, res) => {
+//   getDatabase(async (db) => {
+//     const users = await db.collection("users100").find().toArray();
+//     res.json(users);
+//   });
+// });
 
 // app.delete("/deleteuser/:id", (req, res) => {
 //   const id = req.params.id;
 //   res.send(id);
 // });
 
+// app.delete("/deleteuser/:id", (req, res) => {
+//   const id = req.params.id;
+//   getDatabase(async (db) => {
+//     const deleteResult = await db
+//       .collection("users100")
+//       .deleteOne({ _id: new mongodb.ObjectId(id) });
+//     res.json({
+//       result: deleteResult,
+//     });
+//   });
+// });
+
 app.delete("/deleteuser/:id", (req, res) => {
-  const id = req.params.id;
-  getDatabase(async (db) => {
-    const deleteResult = await db
-      .collection("users100")
-      .deleteOne({ _id: new mongodb.ObjectId(id) });
-    res.json({
-      result: deleteResult,
-    });
+  const deleteResult = await UserModel.deleteOne({
+    _id: new mongoose.Types.ObjectId(id),
+  });
+  res.json({
+    result: deleteResult,
+  });
+});
+// app.post("/adduser/", (req, res) => {
+//   const user = req.body.user;
+//   getDatabase(async (db) => {
+//     const insertResult = await db.collection("users100").insertOne(user);
+//     res.json(insertResult);
+//   });
+// });
+
+app.post("/adduser", (req, res) => {
+  const user1 = new UserModel(user);
+  user1.save((err) => {
+    if (err) {
+      res.status(500).send({ err });
+    } else {
+      res.json({
+        userAdded: user1,
+      });
+    }
   });
 });
 
-app.post("/adduser/", (req, res) => {
-  const user = req.body.user;
-  getDatabase(async (db) => {
-    const insertResult = await db.collection("users100").insertOne(user);
-    res.json(insertResult);
-  });
-});
+// app.patch("/edituser/:id", (req, res) => {
+//   const id = req.params.id;
+//   const email = req.body.email;
+//   getDatabase(async (db) => {
+//     const updateResult = await db
+//       .collection("users100")
+//       .updateOne({ _id: new mongodb.ObjectId(id) }, { $set: { email } });
+//     res.json({
+//       result: updateResult,
+//     });
+//   });
+// });
 
-app.patch("/edituser/:id", (req, res) => {
-  const id = req.params.id;
-  const email = req.body.email;
-  getDatabase(async (db) => {
-    const updateResult = await db
-      .collection("users100")
-      .updateOne({ _id: new mongodb.ObjectId(id) }, { $set: { email } });
-    res.json({
-      result: updateResult,
-    });
+app.patch("/edituseremail", (req, res) => {
+  const updateResult = await UserModel.findOneAndUpdate(
+    { _id: new mongoose.Types.ObjectId(id) },
+    { $set: { email } },
+    { new: true }
+  );
+  res.json({
+    result: updateResult,
   });
 });
 

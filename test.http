@@ -6,14 +6,6 @@
 GET {{url}}
 content-type: application/json; 
 
-### show all users infos
-GET {{url}}/allinfo
-content-type: application/json; 
-
-
-### Delete users (TEST)
-DELETE {{url}}/deleteuser/user123
-content-type: application/json; 
 
 ### Delete users by ID
 DELETE {{url}}/deleteuser/6192322df2e62e6943e2747f
@@ -33,7 +25,7 @@ content-type: application/json
 }
 
 ### Update a useer
-PATCH {{url}}/edituser/61926845cf0afe5ce93eefbb
+PATCH {{url}}//edituseremail
 content-type: application/json
 
 {
