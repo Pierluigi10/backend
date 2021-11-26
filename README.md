@@ -17,9 +17,16 @@ See also the [frontend](https://github.com/Pierluigi10/user_app_with_mongoose_fr
 - open `test.http`
 - click on e.g. "Send Request" under "### show all users"
 
-## published to Heroku
+
+## Backend Deployed to Heroku
 - [backend](https://user-app-mongoose-backend.herokuapp.com/)
-- [frontend](https://user-app-mongoose-frontend.herokuapp.com/) 
+
+
+## Frontend Deployed to Vercel
+- [frontend](https://user-app-mongoose-frontend.vercel.app/) 
+
+
+
 
 
 ## Source:  [onespace](https://onespace.netlify.app/)
